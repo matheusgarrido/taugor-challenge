@@ -87,16 +87,12 @@ const useLogin = (type: PageType) => {
           const newUser = await createUser(email, password);
           const authId = newUser?.user.uid;
           if (authId) {
-            const docId = await insertDocument('users', {
+            await insertDocument('users', {
               email,
               username,
               name,
               authId,
             });
-            if (docId) {
-              const URL = process.env.REACT_APP_URL_BASE;
-              window.location.href = URL + '/tarefas';
-            }
           }
           break;
       }

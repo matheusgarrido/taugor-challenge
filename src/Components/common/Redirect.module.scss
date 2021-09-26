@@ -1,0 +1,11 @@
+@import '../../assets/styles/colors.scss';
+
+.grid {
+  background-image: $gradientColor;
+  width: 100vw;
+  height: 100vh;
+}
+
+.progress {
+  margin: auto;
+}

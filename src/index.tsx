@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NotFound from './Components/NotFound/NotFound';
 import Register from './Components/Access/Register';
-require('dotenv/config');
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { AuthProvider } from './Contexts/AuthContext';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/cadastro" exact component={Register} />
-      <Route path="*" component={NotFound} />
-    </Switch>
-  </BrowserRouter>,
+  <AuthProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/cadastro" exact component={Register} />
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  </AuthProvider>,
   document.getElementById('root')
 );
