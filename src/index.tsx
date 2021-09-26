@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import NotFound from './Components/NotFound/NotFound';
 import reportWebVitals from './reportWebVitals';
 require('dotenv/config');
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="*" component={NotFound} />
+    </Switch>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
