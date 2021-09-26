@@ -62,7 +62,7 @@ const Register = () => {
         />
         <Button
           variant="contained"
-          disabled={validate()}
+          disabled={!!validate()}
           type="submit"
           className={Style.card__button}
         >
