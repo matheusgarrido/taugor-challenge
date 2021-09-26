@@ -20,7 +20,7 @@ const useLogin = (type: 'register' | 'login' | 'reset') => {
       return password.length >= 6;
     }
     function verifyUsername() {
-      return password.length >= 4;
+      return username.length >= 4;
     }
     switch (type) {
       case 'register':
