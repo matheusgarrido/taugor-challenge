@@ -3,6 +3,7 @@ import {
   findDocument,
   insertDocument,
 } from '../../middleware/Firebase/Firestore';
+import { createUser } from '../../middleware/Firebase/Auth';
 import { userRegister } from '../../Models/Register';
 
 const handleData = (event: FormEvent) => {
@@ -83,7 +84,20 @@ const useLogin = (type: PageType) => {
             return;
           }
           //Save new user
-          insertDocument('users', { email, password, username, name });
+          const newUser = await createUser(email, password);
+          const authId = newUser?.user.uid;
+          if (authId) {
+            const docId = await insertDocument('users', {
+              email,
+              username,
+              name,
+              authId,
+            });
+            if (docId) {
+              const URL = process.env.REACT_APP_URL_BASE;
+              window.location.href = URL + '/tarefas';
+            }
+          }
           break;
       }
     },
