@@ -6,55 +6,55 @@ import Style from './Access.module.scss';
 import GridAccess from './Access';
 import useLogin from './useLogin';
 
-const Login = () => {
+const Register = () => {
   changeTitle('Cadastro');
-  const { data, error, handle, unlockButton } = useLogin('register');
+  const { data, error, handle, validate } = useLogin('register');
   return (
     <GridAccess title="Registre-se">
       <form onSubmit={handle.submit}>
         <TextField
-          error={!!error.name}
+          error={error.field === 'name'}
           id="name"
           label="Nome Completo"
           type="text"
           variant="outlined"
-          helperText={error.name}
+          helperText={error.field === 'name' ? error.message : ''}
           value={data.name}
           onInput={handle.data}
           className={Style.card__input}
           required
         />
         <TextField
-          error={!!error.password}
+          error={error.field === 'username'}
           id="username"
           label="Nome de usuário"
           type="text"
           variant="outlined"
-          helperText={error.username}
+          helperText={error.field === 'username' ? error.message : ''}
           value={data.username}
           onInput={handle.data}
           className={Style.card__input}
           required
         />
         <TextField
-          error={!!error.email}
+          error={error.field === 'email'}
           id="email"
           label="Email"
           type="email"
           variant="outlined"
-          helperText={error.email}
+          helperText={error.field === 'email' ? error.message : ''}
           value={data.email}
           onInput={handle.data}
           className={Style.card__input}
           required
         />
         <TextField
-          error={!!error.password}
+          error={error.field === 'password'}
           id="password"
           label="Senha"
           type="password"
           variant="outlined"
-          helperText={error.password}
+          helperText={error.field === 'password' ? error.message : ''}
           value={data.password}
           onInput={handle.data}
           className={Style.card__input}
@@ -62,7 +62,7 @@ const Login = () => {
         />
         <Button
           variant="contained"
-          disabled={unlockButton()}
+          disabled={validate()}
           type="submit"
           className={Style.card__button}
         >
@@ -79,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

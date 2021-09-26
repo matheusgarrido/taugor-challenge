@@ -1,9 +1,12 @@
 import { FormEvent, useState } from 'react';
+import { userRegister } from '../../Models/Register';
 
 const handleData = (event: FormEvent) => {
   const { value, id } = event.target as HTMLInputElement;
   return { value, id };
 };
+
+type Field = 'name' | 'username' | 'email' | 'password';
 
 const useLogin = (type: 'register' | 'login' | 'reset') => {
   //Input states
@@ -13,20 +16,34 @@ const useLogin = (type: 'register' | 'login' | 'reset') => {
   const [password, setPassword] = useState('');
 
   //Errors
-  let error = { email: '', password: '', name: '', username: '' };
+  const [errorField, setErrorField] = useState('');
+  const [error, setError] = useState('');
 
-  function unlockButton(): boolean {
-    function verifyPassword() {
-      return password.length >= 6;
+  // Set state for error
+  function verifyErrors() {
+    const error = validate();
+    if (error) {
+      const { details } = error;
+      details.map((err: any) => {
+        const { key, limit }: { key: Field; limit: number } = err.context;
+        if (err.type === 'string.min') {
+          setError(`Mínimo de ${limit} caracteres`);
+          setErrorField(key);
+        }
+      });
     }
-    function verifyUsername() {
-      return username.length >= 4;
-    }
+  }
+
+  //Verify form
+  function validate() {
+    let data: any = {};
     switch (type) {
       case 'register':
-        return !email || !verifyPassword() || !name || !verifyUsername();
-      case 'login':
-        return !email || !verifyPassword();
+        data = userRegister({ email, password, name, username });
+        break;
+    }
+    if (data.error) {
+      return data.error;
     }
     return false;
   }
@@ -35,9 +52,12 @@ const useLogin = (type: 'register' | 'login' | 'reset') => {
   const handle = {
     submit: async (event: FormEvent) => {
       event.preventDefault();
+      verifyErrors();
     },
     data: (event: FormEvent) => {
       const { value, id } = handleData(event);
+      setError('');
+      setErrorField('');
       switch (id) {
         case 'name':
           setName(value);
@@ -57,9 +77,9 @@ const useLogin = (type: 'register' | 'login' | 'reset') => {
 
   return {
     data: { email, password, username, name },
-    error,
+    error: { message: error, field: errorField },
     handle,
-    unlockButton,
+    validate,
   };
 };
 
