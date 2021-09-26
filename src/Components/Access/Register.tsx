@@ -68,7 +68,7 @@ const Register = () => {
             type="submit"
             className={Style.card__button}
           >
-            Login
+            Criar conta
           </Button>
           <div className={Style.card__message}>
             <Typography>Já possui uma conta?</Typography>
