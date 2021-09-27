@@ -7,7 +7,7 @@ import RedirectComponent from '../common/Redirect';
 import GridAccess from './Access';
 import useAccess from './useAccess';
 
-const Register = () => {
+const Login = () => {
   changeTitle('Login');
   const { data, error, handle, validate } = useAccess('login');
   return (
@@ -65,4 +65,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
