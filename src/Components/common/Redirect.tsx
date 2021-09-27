@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useAuth } from '../../Contexts/AuthContext';
-import Style from './Redirect.module.scss';
+import LoadingStyle from '../../assets/styles/Loading.module.scss';
 import { CircularProgress, Grid } from '@mui/material';
 
 interface IProps {
@@ -13,8 +13,8 @@ export default function RedirectComponent({ children, path }: IProps) {
   const { currentUser } = useAuth();
   if (currentUser === undefined) {
     return (
-      <Grid container className={Style.grid}>
-        <div className={Style.progress}>
+      <Grid container className={LoadingStyle.grid}>
+        <div className={LoadingStyle.progress}>
           <CircularProgress></CircularProgress>
         </div>
       </Grid>
