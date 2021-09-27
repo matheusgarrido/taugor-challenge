@@ -5,7 +5,6 @@ const TITLE_FIELD = Joi.string().required();
 const DESCRIPTION_FIELD = Joi.string().required();
 const STATUS_FIELD = Joi.string().required();
 const RESPONSIBLE_FIELD = Joi.string().required();
-const FILE_FIELD = Joi.string().required();
 
 function validate(schema: any, data: Object) {
   const validation = schema.validate(data);
@@ -24,7 +23,6 @@ export const taskForm = (task: Object) => {
     description: DESCRIPTION_FIELD,
     status: STATUS_FIELD,
     responsible: RESPONSIBLE_FIELD,
-    file: FILE_FIELD,
   });
   return validate(schema, task);
 };

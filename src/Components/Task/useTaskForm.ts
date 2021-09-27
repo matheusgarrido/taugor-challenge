@@ -3,6 +3,7 @@ import {
   getAllDocuments,
   insertDocument,
 } from '../../middleware/Firebase/Firestore';
+import { uploadFile } from '../../middleware/Firebase/Storage';
 import { SelectChangeEvent } from '@mui/material';
 import { taskForm } from '../../Models/Task';
 
@@ -41,7 +42,7 @@ const useTaskForm = (props: IProps) => {
   const [title, setTitle] = useState(props.title);
   const [description, setDescription] = useState(props.description);
   const [status, setStatus] = useState(props.status);
-  const [file, setFile] = useState(props.file);
+  const [file, setFile] = useState<File>();
   const [responsible, setResponsible] = useState(props.responsible);
 
   //Empty file error
@@ -69,18 +70,20 @@ const useTaskForm = (props: IProps) => {
     setResponsible(value);
     setSuccess(false);
   };
-  const handleFile = (event: FormEvent) => {
-    const { value } = event.target as HTMLInputElement;
-    setFile(value);
-    setEmptyFile(false);
-    setSuccess(false);
+  const handleFile = async (event: FormEvent) => {
+    const { value, files } = event.target as HTMLInputElement;
+    if (files) {
+      await setFile(files[0]);
+      setEmptyFile(false);
+      setSuccess(false);
+    }
   };
   const handleReset = () => {
     setTitle('');
     setDescription('');
     setStatus('');
     setResponsible('');
-    setFile('');
+    setFile(undefined);
   };
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -90,14 +93,17 @@ const useTaskForm = (props: IProps) => {
     }
     switch (props.type) {
       case 'new':
-        const task = await insertDocument('tasks', {
+        const taskId = await insertDocument('tasks', {
           title,
           description,
           status,
           responsible,
         });
-        setSuccess(true);
-        handleReset();
+        if (taskId) {
+          await uploadFile(file, taskId);
+          handleReset();
+          setSuccess(true);
+        }
         break;
     }
   };
@@ -111,7 +117,6 @@ const useTaskForm = (props: IProps) => {
           title,
           description,
           status,
-          file,
           responsible,
         });
         break;
@@ -119,6 +124,7 @@ const useTaskForm = (props: IProps) => {
     if (data.error) {
       return data.error;
     }
+    if (!file) return true;
     return false;
   }
 

@@ -32,10 +32,6 @@ export default function Form({
     }
   );
 
-  const getFileName = () => {
-    const splitted = data.file.split('\\');
-    return splitted[splitted.length - 1];
-  };
   return (
     <form onSubmit={handle.submit}>
       <Box className={Style.form}>
@@ -117,7 +113,6 @@ export default function Form({
               hidden={true}
               onChange={handle.file}
               className={`${Style.form__input} ${Style.form__input__file__hidden}`}
-              value={data.file}
             />
             <Typography
               className={
@@ -125,7 +120,7 @@ export default function Form({
                 Style.form__input__file__name
               }
             >
-              {(data.file && getFileName()) || 'Nenhum arquivo'}
+              {(data.file && data.file.name) || 'Nenhum arquivo'}
             </Typography>
             <Box className={Style.form__button}>
               <label htmlFor="file">
