@@ -20,6 +20,7 @@ export const insertDocument = async (collectionName: string, data: Object) => {
   }
 };
 
+//Find Document with where
 export const findDocument = async (
   collectionName: string,
   whereField: string,
@@ -39,6 +40,15 @@ export const findDocument = async (
   return documents;
 };
 
-// matheusgarrido10@hotmail.com
-
-// if (!error) insertDocument('users', { email, password, name, username });
+//Get all documents
+export const getAllDocuments = async (collectionName: string) => {
+  const q = query(collection(db, collectionName));
+  const querySnapshot = await getDocs(q);
+  let documents: any[] = [];
+  querySnapshot.forEach((doc) => {
+    const { id } = doc;
+    const data = doc.data();
+    documents.push({ id, ...data });
+  });
+  return documents;
+};

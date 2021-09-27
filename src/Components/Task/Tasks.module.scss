@@ -1,7 +1,6 @@
 @import '../../assets/styles/colors.scss';
 
 .main {
-  // background-color: red;
   margin: 0 20px;
 }
 
@@ -14,12 +13,89 @@
   color: $secondaryColor;
   font-size: 40px !important;
 }
-
 .task__link {
   text-decoration: none;
 }
 .task__title__button {
   margin: -20px 20px 0 !important;
+}
+
+.form {
+  margin: 10px 40px 0 !important;
+  justify-content: space-around;
+  display: flex;
+  flex: 1 1 0px;
+  flex-wrap: wrap;
+}
+.form__column {
+  max-width: 700px !important;
+  width: 100% !important;
+  margin: 0 20px;
+}
+.form__input {
+  width: 100% !important;
+  margin: 10px 0 !important;
+  color: black !important;
+}
+.form__input__file {
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  border-radius: 3px;
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.7) !important;
+  }
+}
+.form__input__file__hidden {
+  display: none !important;
+}
+.form__input__file__title {
+  margin-top: 5px !important;
+}
+.form__input__file__name,
+.form__input__file__name__error {
+  text-align: center;
+  user-select: none;
+  height: 22px;
+  margin-bottom: 20px !important;
+  overflow: hidden;
+}
+.form__input__file__error {
+  border: 1px solid red !important;
+  border-radius: 3px;
+  &:hover {
+    border-color: red !important;
+  }
+}
+.form__input__file__legend,
+.form__input__file__legend__error {
+  font-size: 13px;
+}
+.form__input__file__legend__error,
+.form__input__file__name__error {
+  color: red;
+}
+.form__button {
+  width: max-content;
+  margin: 20px auto !important;
+  display: block;
+}
+.form__button__neutral {
+  background-color: #ddd !important;
+  color: black !important;
+  &:hover {
+    background-color: white !important;
+  }
+}
+.form__success {
+  color: white;
+  background-color: $primaryColor;
+  font-weight: bolder;
+  text-align: center;
+  text-transform: uppercase;
+
+  // height: 3px;
+  margin: 20px 0 0 !important;
+  padding: 15px 0;
+  // width: 100vw;
 }
 
 @media (max-width: 400px) {
