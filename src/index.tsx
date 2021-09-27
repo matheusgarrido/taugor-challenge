@@ -6,12 +6,14 @@ import NotFound from './Components/NotFound/NotFound';
 import Register from './Components/Access/Register';
 import Login from './Components/Access/Login';
 import Reset from './Components/Access/Reset';
+import AllTasks from './Components/Task/AllTasks';
 import { AuthProvider } from './Contexts/AuthContext';
 
 ReactDOM.render(
   <AuthProvider>
     <BrowserRouter>
       <Switch>
+        <Route path="/tarefas" exact component={AllTasks} />
         <Route path="/reset" exact component={Reset} />
         <Route path="/login" exact component={Login} />
         <Route path="/cadastro" exact component={Register} />

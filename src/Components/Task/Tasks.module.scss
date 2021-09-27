@@ -1,0 +1,32 @@
+@import '../../assets/styles/colors.scss';
+
+.main {
+  // background-color: red;
+  margin: 0 20px;
+}
+
+.user {
+  text-align: right;
+}
+
+.task__title__text {
+  display: inline;
+  color: $secondaryColor;
+  font-size: 40px !important;
+}
+
+.task__link {
+  text-decoration: none;
+}
+.task__title__button {
+  margin: -20px 20px 0 !important;
+}
+
+@media (max-width: 400px) {
+  .task__title__text {
+    display: block;
+  }
+  .task__title__button {
+    margin: auto !important;
+  }
+}
