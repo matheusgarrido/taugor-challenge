@@ -45,12 +45,21 @@ const Register = () => {
           >
             Login
           </Button>
+        </form>
+        <div className={Style.card__containerMessage}>
           <div className={Style.card__message}>
-            <Link to="/cadastro">
+            <Link to="/reset">
               <Typography>Esqueci minha senha</Typography>
             </Link>
           </div>
-        </form>
+          <hr />
+          <div className={Style.card__message}>
+            <Typography>Não possui uma conta ainda?</Typography>
+            <Link to="/cadastro">
+              <Typography>Crie sua conta</Typography>
+            </Link>
+          </div>
+        </div>
       </GridAccess>
     </RedirectComponent>
   );

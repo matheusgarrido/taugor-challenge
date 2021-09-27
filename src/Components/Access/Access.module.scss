@@ -29,3 +29,14 @@
   display: block;
   margin: 10px;
 }
+
+.card__containerMessage {
+  & .card__message {
+    &:nth-child(n) {
+      margin: 10px 10px 20px;
+    }
+    &:last-child {
+      margin: 25px 10px 10px;
+    }
+  }
+}
