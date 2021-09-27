@@ -26,3 +26,11 @@ export const userRegister = (user: Object) => {
   });
   return validate(schema, user);
 };
+
+export const userLogin = (user: Object) => {
+  const schema = Joi.object({
+    email: EMAIL_FIELD,
+    password: PASSWORD_FIELD,
+  });
+  return validate(schema, user);
+};

@@ -8,43 +8,18 @@ import GridAccess from './Access';
 import useAccess from './useAccess';
 
 const Register = () => {
-  changeTitle('Cadastro');
-  const { data, error, handle, validate } = useAccess('register');
+  changeTitle('Login');
+  const { data, error, handle, validate } = useAccess('login');
   return (
     <RedirectComponent path="/tarefas">
-      <GridAccess title="Registre-se">
+      <GridAccess title="Login">
         <form onSubmit={handle.submit}>
           <TextField
-            error={error.field === 'name'}
-            id="name"
-            label="Nome Completo"
-            type="text"
-            variant="outlined"
-            helperText={error.field === 'name' ? error.message : ''}
-            value={data.name}
-            onInput={handle.data}
-            className={Style.card__input}
-            required
-          />
-          <TextField
-            error={error.field === 'username'}
-            id="username"
-            label="Nome de usuário"
-            type="text"
-            variant="outlined"
-            helperText={error.field === 'username' ? error.message : ''}
-            value={data.username}
-            onInput={handle.data}
-            className={Style.card__input}
-            required
-          />
-          <TextField
-            error={error.field === 'email'}
+            error={!!error.field}
             id="email"
             label="Email"
             type="email"
             variant="outlined"
-            helperText={error.field === 'email' ? error.message : ''}
             value={data.email}
             onInput={handle.data}
             className={Style.card__input}
@@ -68,12 +43,11 @@ const Register = () => {
             type="submit"
             className={Style.card__button}
           >
-            Criar conta
+            Login
           </Button>
           <div className={Style.card__message}>
-            <Typography>Já possui uma conta?</Typography>
-            <Link to="/login">
-              <Typography>Entre por aqui</Typography>
+            <Link to="/cadastro">
+              <Typography>Esqueci minha senha</Typography>
             </Link>
           </div>
         </form>

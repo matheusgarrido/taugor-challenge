@@ -3,8 +3,8 @@ import {
   findDocument,
   insertDocument,
 } from '../../middleware/Firebase/Firestore';
-import { createUser } from '../../middleware/Firebase/Auth';
-import { userRegister } from '../../Models/Register';
+import { authCreate, authLogin } from '../../middleware/Firebase/Auth';
+import { userLogin, userRegister } from '../../Models/Access';
 
 const handleData = (event: FormEvent) => {
   const { value, id } = event.target as HTMLInputElement;
@@ -51,6 +51,9 @@ const useLogin = (type: PageType) => {
       case 'register':
         data = userRegister({ email, password, name, username });
         break;
+      case 'login':
+        data = userLogin({ email, password });
+        break;
     }
     if (data.error) {
       return data.error;
@@ -84,7 +87,7 @@ const useLogin = (type: PageType) => {
             return;
           }
           //Save new user
-          const newUser = await createUser(email, password);
+          const newUser = await authCreate(email, password);
           const authId = newUser?.user.uid;
           if (authId) {
             await insertDocument('users', {
@@ -93,6 +96,12 @@ const useLogin = (type: PageType) => {
               name,
               authId,
             });
+          }
+          break;
+        case 'login':
+          const user = await authLogin(email, password);
+          if (!user) {
+            newError('password', 'Email ou senha inválidos');
           }
           break;
       }
