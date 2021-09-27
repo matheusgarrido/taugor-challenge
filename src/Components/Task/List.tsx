@@ -29,7 +29,7 @@ export default function ListTasks() {
   }
   console.log(allTasks);
   return (
-    <List>
+    <List style={{ margin: '20px 0' }}>
       {allTasks.map((task) => (
         <div className={Style.list} key={task.id}>
           <ListItem disablePadding className={Style.list__item}>
