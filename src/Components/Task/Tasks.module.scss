@@ -20,6 +20,28 @@
   margin: -20px 20px 0 !important;
 }
 
+.list {
+  display: flex;
+  padding: 10px 20px;
+  background-color: white;
+  &:nth-child(2n-1) {
+    background-color: #ddd;
+  }
+}
+.list__item {
+  display: block !important;
+}
+.list__item__container {
+  width: 100% !important;
+}
+.list__file {
+  vertical-align: middle;
+  margin: auto;
+}
+.list__button {
+  display: inline !important;
+}
+
 .form {
   margin: 10px 40px 0 !important;
   justify-content: space-around;
