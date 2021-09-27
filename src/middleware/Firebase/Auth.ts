@@ -27,3 +27,11 @@ export const authLogin = async (email: string, password: string) => {
     return null;
   }
 };
+
+export const authLogout = async () => {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    return null;
+  }
+};

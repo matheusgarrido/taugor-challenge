@@ -1,0 +1,47 @@
+@import '../../assets/styles/colors.scss';
+
+.appbar {
+  background-color: $primaryColor;
+  height: 65px;
+}
+
+.appbar__toolbar {
+  justify-content: space-between;
+
+  li {
+    display: inline-block !important;
+    margin: auto 0 auto 20px;
+    color: #ddd;
+  }
+}
+
+.appbar__link {
+  color: #fff;
+  text-decoration: none;
+  user-select: none;
+  &:hover,
+  &:active {
+    color: #ddd;
+  }
+}
+
+.appbar__button {
+  background-color: $secondaryColor !important;
+  color: white;
+  &:hover,
+  &:active {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+
+.appbar__button__signup {
+  background-color: #ddd !important;
+  color: black !important;
+}
+
+@media (max-width: 400px) {
+  .appbar__username {
+    display: none;
+  }
+}
