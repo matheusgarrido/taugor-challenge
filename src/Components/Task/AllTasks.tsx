@@ -8,7 +8,7 @@ export default function AllTasks() {
   return (
     <>
       <Task>
-        <Box className={Style.task__title} sx={{ display: 'inline' }}>
+        <Box className={Style.task__title}>
           <Typography variant="h1" className={Style.task__title__text}>
             Tarefas
           </Typography>
