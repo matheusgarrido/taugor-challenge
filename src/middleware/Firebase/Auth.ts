@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 // Firestore database
@@ -28,9 +29,20 @@ export const authLogin = async (email: string, password: string) => {
   }
 };
 
+//Sign out
 export const authLogout = async () => {
   try {
     await auth.signOut();
+  } catch (error) {
+    return null;
+  }
+};
+
+//Sign in
+export const authReset = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return;
   } catch (error) {
     return null;
   }

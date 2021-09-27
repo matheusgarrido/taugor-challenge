@@ -3,8 +3,12 @@ import {
   findDocument,
   insertDocument,
 } from '../../middleware/Firebase/Firestore';
-import { authCreate, authLogin } from '../../middleware/Firebase/Auth';
-import { userLogin, userRegister } from '../../Models/Access';
+import {
+  authCreate,
+  authLogin,
+  authReset,
+} from '../../middleware/Firebase/Auth';
+import { userLogin, userRegister, userReset } from '../../Models/Access';
 
 const handleData = (event: FormEvent) => {
   const { value, id } = event.target as HTMLInputElement;
@@ -14,7 +18,7 @@ const handleData = (event: FormEvent) => {
 type FieldType = 'name' | 'username' | 'email' | 'password';
 type PageType = 'register' | 'login' | 'reset';
 
-const useLogin = (type: PageType) => {
+const useAccess = (type: PageType) => {
   //Input states
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -53,6 +57,9 @@ const useLogin = (type: PageType) => {
         break;
       case 'login':
         data = userLogin({ email, password });
+        break;
+      case 'reset':
+        data = userReset({ email });
         break;
     }
     if (data.error) {
@@ -104,6 +111,10 @@ const useLogin = (type: PageType) => {
             newError('password', 'Email ou senha inválidos');
           }
           break;
+        case 'reset':
+          await authReset(email);
+          setEmail('');
+          break;
       }
     },
     data: (event: FormEvent) => {
@@ -135,4 +146,4 @@ const useLogin = (type: PageType) => {
   };
 };
 
-export default useLogin;
+export default useAccess;

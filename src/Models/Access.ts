@@ -34,3 +34,10 @@ export const userLogin = (user: Object) => {
   });
   return validate(schema, user);
 };
+
+export const userReset = (user: Object) => {
+  const schema = Joi.object({
+    email: EMAIL_FIELD,
+  });
+  return validate(schema, user);
+};
