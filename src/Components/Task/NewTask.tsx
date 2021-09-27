@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Contexts/AuthContext';
+import { changeTitle } from '../../helpers/modifyHtmlHead';
+
 import { Typography, Grid, CircularProgress, Box } from '@mui/material';
 import LoadingStyle from '../../assets/styles/Loading.module.scss';
 import { Redirect } from 'react-router-dom';
@@ -9,6 +11,7 @@ import Task from './Task';
 import Form from './Form';
 
 export default function NewTask() {
+  changeTitle('Nova Tarefa');
   const { currentUser } = useAuth();
   if (currentUser === undefined) {
     return (
