@@ -12,7 +12,7 @@ const Register = () => {
   const { data, error, handle, validate } = useAccess('register');
   return (
     <RedirectComponent path="/tarefas">
-      <GridAccess title="Registre-se">
+      <GridAccess title="Cadastre-se">
         <form onSubmit={handle.submit}>
           <TextField
             error={error.field === 'name'}
