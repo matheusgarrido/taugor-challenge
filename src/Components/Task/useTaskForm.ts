@@ -82,7 +82,7 @@ const useTaskForm = (props: IProps) => {
     setTitle('');
     setDescription('');
     setStatus('');
-    setResponsible('');
+    setResponsible(props.responsible);
     setFile(undefined);
   };
   const handleSubmit = async (event: FormEvent) => {
