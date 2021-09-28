@@ -39,12 +39,7 @@ export default function Task({ children }: IProps) {
   return (
     <>
       <Header />
-      <main className={Style.main}>
-        <div className={Style.user}>
-          <Typography className={Style.user__text}>{name}</Typography>
-        </div>
-        {children}
-      </main>
+      <main className={Style.main}>{children}</main>
     </>
   );
 }
