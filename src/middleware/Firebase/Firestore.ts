@@ -8,6 +8,7 @@ import {
   getDocs,
   deleteDoc,
   documentId,
+  updateDoc,
 } from 'firebase/firestore';
 
 // Firestore database
@@ -38,10 +39,30 @@ export const deleteDocument = async (collectionName: string, id: string) => {
   }
 };
 
+//Update document
+export const updateDocument = async (
+  collectionName: string,
+  id: string,
+  data: any
+) => {
+  try {
+    const q = query(
+      collection(db, collectionName),
+      where(documentId(), '==', id)
+    );
+    const querySnapshot = await getDocs(q);
+    const { docs } = querySnapshot;
+    const updated = await updateDoc(docs[0].ref, data);
+    return updated;
+  } catch (e) {
+    return null;
+  }
+};
+
 //Find Document with where
 export const findDocument = async (
   collectionName: string,
-  whereField: string,
+  whereField: any,
   whereData: any
 ) => {
   const q = query(
@@ -70,3 +91,5 @@ export const getAllDocuments = async (collectionName: string) => {
   });
   return documents;
 };
+
+export { documentId };

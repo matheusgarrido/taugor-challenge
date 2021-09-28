@@ -1,7 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
 import {
+  findDocument,
   getAllDocuments,
   insertDocument,
+  updateDocument,
+  documentId,
 } from '../../middleware/Firebase/Firestore';
 import { uploadFile } from '../../middleware/Firebase/Storage';
 import { SelectChangeEvent } from '@mui/material';
@@ -19,6 +22,7 @@ interface IProps {
   responsible: string;
   file: string;
   type: 'new' | 'update';
+  id: string;
 }
 
 const useTaskForm = (props: IProps) => {
@@ -87,12 +91,12 @@ const useTaskForm = (props: IProps) => {
   };
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!file) {
-      setEmptyFile(true);
-      return;
-    }
     switch (props.type) {
       case 'new':
+        if (!file) {
+          setEmptyFile(true);
+          return;
+        }
         const taskId = await insertDocument('tasks', {
           title,
           description,
@@ -103,6 +107,57 @@ const useTaskForm = (props: IProps) => {
           await uploadFile(file, taskId);
           handleReset();
           setSuccess(true);
+        }
+        break;
+      case 'update':
+        const updates: string[] = [];
+        const doc = (await findDocument('tasks', documentId(), props.id))[0];
+        const user = (
+          await findDocument('users', 'authId', doc.responsible)
+        )[0];
+        const now = new Date();
+        if (!!file) {
+          await uploadFile(file, props.id);
+          setFile(undefined);
+          setSuccess(true);
+          updates.push(
+            `${user.name} (${user.username}) substituiu o arquivo # ${now}`
+          );
+        }
+        if (doc.title !== title) {
+          updates.push(
+            `${user.name} (${user.username}) atualizou o título que estava anteriormente como "${doc.title}" # ${now}`
+          );
+        }
+        if (doc.description !== description) {
+          updates.push(
+            `${user.name} (${user.username}) atualizou a descrição que estava anteriormente como "${doc.description}" # ${now}`
+          );
+        }
+        if (doc.status !== status) {
+          updates.push(
+            `${user.name} (${user.username}) atualizou o status que estava anteriormente como "${doc.status}" # ${now}`
+          );
+        }
+        if (doc.responsible !== responsible) {
+          const newResponsible = (
+            await findDocument('users', 'authId', responsible)
+          )[0];
+          updates.push(
+            `${user.name} (${user.username}) atribuiu a responsabilidade para ${newResponsible.name} (${newResponsible.username}) # ${now}`
+          );
+        }
+        if (updates.length) {
+          const updateInfo = !!doc.updateInfo
+            ? [...updates, ...doc.updateInfo]
+            : updates;
+          await updateDocument('tasks', props.id, {
+            title,
+            description,
+            status,
+            responsible,
+            updateInfo,
+          });
         }
         break;
     }
@@ -124,7 +179,7 @@ const useTaskForm = (props: IProps) => {
     if (data.error) {
       return data.error;
     }
-    if (!file) return true;
+    if (!file && props.type == 'new') return true;
     return false;
   }
 

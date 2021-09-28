@@ -8,6 +8,7 @@ import Login from './Components/Access/Login';
 import Reset from './Components/Access/Reset';
 import AllTasks from './Components/Task/AllTasks';
 import NewTask from './Components/Task/NewTask';
+import EditTask from './Components/Task/EditTask';
 import { AuthProvider } from './Contexts/AuthContext';
 
 ReactDOM.render(
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/tarefas" exact component={AllTasks} />
         <Route path="/tarefa/nova" exact component={NewTask} />
+        <Route path="/tarefa/:id" exact component={EditTask} />
         <Redirect exact from="/tarefa" to="/tarefas" />
         <Route path="/reset" exact component={Reset} />
         <Route path="/login" exact component={Login} />

@@ -20,6 +20,8 @@ export default function Form({
   currentStatus = '',
   currentTitle = '',
   currentFile = '',
+  currentType = 'new',
+  currentId = '',
 }) {
   const { data, selectOptions, handle, error, success, validate } = useTaskForm(
     {
@@ -28,7 +30,8 @@ export default function Form({
       title: currentTitle,
       status: currentStatus,
       file: currentFile,
-      type: 'new',
+      type: currentType as 'new' | 'update',
+      id: currentId,
     }
   );
 
@@ -120,7 +123,9 @@ export default function Form({
                 Style.form__input__file__name
               }
             >
-              {(data.file && data.file.name) || 'Nenhum arquivo'}
+              {(data.file && data.file.name) ||
+                (currentType === 'new' && 'Nenhum arquivo') ||
+                'Substitua o arquivo caso necessário'}
             </Typography>
             <Box className={Style.form__button}>
               <label htmlFor="file">
