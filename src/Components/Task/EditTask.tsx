@@ -9,15 +9,18 @@ import { Redirect } from 'react-router-dom';
 import Style from './Tasks.module.scss';
 import Task from './Task';
 import Form from './Form';
+import NotFound from '../NotFound/NotFound';
 
 export default function NewTask() {
   const [task, setTask] = useState<any>();
+  const [loading, setLoading] = useState(true);
   changeTitle('Nova Tarefa');
   const { currentUser } = useAuth();
   const { id: taskId }: { id: string } = useParams();
   const getTask = async () => {
-    const currentTask = await findDocument('tasks', documentId(), taskId);
-    await setTask(currentTask[0]);
+    const currentTask = (await findDocument('tasks', documentId(), taskId))[0];
+    await setTask(currentTask);
+    setLoading(false);
   };
   useEffect(() => {
     getTask();
@@ -33,6 +36,8 @@ export default function NewTask() {
     );
   }
   if (!currentUser) return <Redirect to="/login" />;
+
+  if (!task && !loading) return <NotFound />;
 
   return (
     <Task>
