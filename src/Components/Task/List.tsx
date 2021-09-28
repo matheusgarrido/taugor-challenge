@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Box, List, ListItem, Typography, IconButton } from '@mui/material';
+import {
+  List,
+  ListItem,
+  Typography,
+  IconButton,
+  Grid,
+  CircularProgress,
+} from '@mui/material';
+import { useAuth } from '../../Contexts/AuthContext';
+import { Link, Redirect } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-
-import { getAllDocuments } from '../../middleware/Firebase/Firestore';
+import LoadingStyle from '../../assets/styles/Loading.module.scss';
+import useTaskList from './useTaskList';
 import Style from './Tasks.module.scss';
 
-interface ITask {
-  title: string;
-  description: string;
-  status: string;
-  responsible: string;
-  id: string;
-}
-
 export default function ListTasks() {
-  const [allTasks, setAllTasks] = useState<ITask[]>([]);
-  const getAllTasks = async () => {
-    const tasks = await getAllDocuments('tasks');
-    tasks.sort((a, b) => a.title.localeCompare(b.title));
-    setAllTasks(tasks);
-  };
-  useEffect(() => {
-    getAllTasks();
-  }, []);
-  if (!allTasks.length) {
-    return <></>;
+  const { currentUser } = useAuth();
+  if (currentUser === undefined) {
+    return (
+      <Grid container className={LoadingStyle.grid}>
+        <div className={LoadingStyle.progress}>
+          <CircularProgress></CircularProgress>
+        </div>
+      </Grid>
+    );
   }
-  console.log(allTasks);
+  if (!currentUser) return <Redirect to="/login" />;
+
+  const id = currentUser.uid;
+  const { data } = useTaskList({ id });
+
+  if (!data.allTasks.length) {
+    return (
+      <Typography variant="h5" className={Style.list__empty}>
+        Não há tarefas cadastradas sob sua responsabilidade
+      </Typography>
+    );
+  }
   return (
     <List style={{ margin: '20px 0' }}>
-      {allTasks.map((task) => (
+      {data.allTasks.map((task, index) => (
         <div className={Style.list} key={task.id}>
           <ListItem disablePadding className={Style.list__item}>
             <div className={Style.list__item__container}>
@@ -42,7 +51,15 @@ export default function ListTasks() {
               <Typography variant="h6">{task.description}</Typography>
             </div>
           </ListItem>
-          <span className={Style.list__file}>Arquivo</span>
+          {data.allFiles && (
+            <a
+              className={Style.list__file}
+              href={data.allFiles[index]}
+              target="_blank"
+            >
+              Arquivo
+            </a>
+          )}
           <IconButton aria-label="edit" size="large">
             <Link
               to={`/tarefa/${task.id}`}

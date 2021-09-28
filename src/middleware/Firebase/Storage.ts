@@ -1,5 +1,14 @@
 import { app } from './Firebase';
-import { getStorage, uploadBytes, ref, uploadString } from 'firebase/storage';
+import {
+  getStorage,
+  uploadBytes,
+  ref,
+  getDownloadURL,
+  getMetadata,
+  listAll,
+  connectStorageEmulator,
+  list,
+} from 'firebase/storage';
 
 // Firestore database
 export const storage = getStorage(app);
@@ -15,5 +24,17 @@ export const uploadFile = async (file: File, taskId: string) => {
     }
   } catch (error) {
     return null;
+  }
+};
+
+export const getFile = async (taskId: string) => {
+  try {
+    const path2 = `${taskId}/task-file.txt`;
+    const txt = await getDownloadURL(ref(storage, path2));
+    return txt;
+  } catch (error) {
+    const path = `${taskId}/task-file.pdf`;
+    const pdf = await getDownloadURL(ref(storage, path));
+    return pdf;
   }
 };
