@@ -1,7 +1,8 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { findDocument } from '../../middleware/Firebase/Firestore';
-import { getFile } from '../../middleware/Firebase/Storage';
+import { getFile, deleteFile } from '../../middleware/Firebase/Storage';
+import { deleteDocument } from '../../middleware/Firebase/Firestore';
 
 interface ITask {
   title: string;
@@ -39,8 +40,23 @@ const useTaskList = ({ id }: IProps) => {
     getAllFiles();
   }, [allTasks]);
 
+  const handle = {
+    deleteTask: async (id: string) => {
+      await deleteFile(id);
+      await deleteDocument('tasks', id);
+      const index = allTasks.findIndex((task) => task.id == id);
+      if (index > -1) {
+        const tasks = allTasks.filter((task, i) => i !== index);
+        setAllTasks(tasks);
+        const files = allFiles.filter((task, i) => i !== index);
+        setAllFiles(files);
+      }
+    },
+  };
+
   return {
     data: { allTasks, allFiles },
+    handle,
   };
 };
 

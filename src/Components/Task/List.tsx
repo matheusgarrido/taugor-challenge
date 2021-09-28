@@ -28,7 +28,7 @@ export default function ListTasks() {
   if (!currentUser) return <Redirect to="/login" />;
 
   const id = currentUser.uid;
-  const { data } = useTaskList({ id });
+  const { data, handle } = useTaskList({ id });
 
   if (!data.allTasks.length) {
     return (
@@ -37,6 +37,7 @@ export default function ListTasks() {
       </Typography>
     );
   }
+
   return (
     <List style={{ margin: '20px 0' }}>
       {data.allTasks.map((task, index) => (
@@ -68,7 +69,12 @@ export default function ListTasks() {
               <Edit fontSize="inherit" />
             </Link>
           </IconButton>
-          <IconButton aria-label="delete" size="large">
+
+          <IconButton
+            aria-label="delete"
+            size="large"
+            onClick={() => handle.deleteTask(task.id)}
+          >
             <Delete fontSize="inherit" />
           </IconButton>
         </div>

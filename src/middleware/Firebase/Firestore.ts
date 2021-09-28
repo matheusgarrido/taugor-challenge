@@ -6,15 +6,33 @@ import {
   query,
   where,
   getDocs,
+  deleteDoc,
+  documentId,
 } from 'firebase/firestore';
 
 // Firestore database
 export const db = getFirestore(app);
 
+//Insert a document
 export const insertDocument = async (collectionName: string, data: Object) => {
   try {
     const docRef = await addDoc(collection(db, collectionName), data);
     return docRef.id;
+  } catch (e) {
+    return null;
+  }
+};
+
+//Delete document
+export const deleteDocument = async (collectionName: string, id: string) => {
+  try {
+    const q = query(
+      collection(db, collectionName),
+      where(documentId(), '==', id)
+    );
+    const querySnapshot = await getDocs(q);
+    const { docs } = querySnapshot;
+    await deleteDoc(docs[0].ref);
   } catch (e) {
     return null;
   }
