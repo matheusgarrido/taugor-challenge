@@ -8,6 +8,7 @@ import LoadingStyle from '../../assets/styles/Loading.module.scss';
 import { Redirect } from 'react-router-dom';
 import Style from './Tasks.module.scss';
 import Task from './Task';
+import Changes from './Changes';
 import Form from './Form';
 import NotFound from '../NotFound/NotFound';
 
@@ -19,6 +20,7 @@ export default function NewTask() {
   const { id: taskId }: { id: string } = useParams();
   const getTask = async () => {
     const currentTask = (await findDocument('tasks', documentId(), taskId))[0];
+    console.log(currentTask);
     await setTask(currentTask);
     setLoading(false);
   };
@@ -48,14 +50,17 @@ export default function NewTask() {
           </Typography>
         </Box>
         {currentUser.uid && task && (
-          <Form
-            currentResponsible={currentUser.uid}
-            currentDescription={task.description}
-            currentTitle={task.title}
-            currentStatus={task.status}
-            currentType="update"
-            currentId={taskId}
-          ></Form>
+          <>
+            <Form
+              currentResponsible={currentUser.uid}
+              currentDescription={task.description}
+              currentTitle={task.title}
+              currentStatus={task.status}
+              currentType="update"
+              currentId={taskId}
+            ></Form>
+            {<Changes info={task.updateInfo || []}></Changes>}
+          </>
         )}
       </>
     </Task>
