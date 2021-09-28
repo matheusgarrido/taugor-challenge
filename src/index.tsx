@@ -15,10 +15,13 @@ ReactDOM.render(
   <AuthProvider>
     <BrowserRouter>
       <Switch>
+        <Redirect exact from="/" to="/tarefas" />
+        <Redirect exact from="/home" to="/tarefas" />
         <Route path="/tarefas" exact component={AllTasks} />
         <Route path="/tarefa/nova" exact component={NewTask} />
         <Route path="/tarefa/:id" exact component={EditTask} />
         <Redirect exact from="/tarefa" to="/tarefas" />
+        <Redirect exact from="/logout" to="/login" />
         <Route path="/reset" exact component={Reset} />
         <Route path="/login" exact component={Login} />
         <Route path="/cadastro" exact component={Register} />
