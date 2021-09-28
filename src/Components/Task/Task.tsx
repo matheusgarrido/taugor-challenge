@@ -13,17 +13,6 @@ interface IProps {
 
 export default function Task({ children }: IProps) {
   const { currentUser } = useAuth();
-  if (currentUser === undefined) {
-    return (
-      <Grid container className={LoadingStyle.grid}>
-        <div className={LoadingStyle.progress}>
-          <CircularProgress></CircularProgress>
-        </div>
-      </Grid>
-    );
-  }
-  if (!currentUser) return <Redirect to="/login" />;
-
   const [name, setName] = useState('');
 
   if (currentUser) {
@@ -35,6 +24,16 @@ export default function Task({ children }: IProps) {
     };
     getName();
   }
+  if (currentUser === undefined) {
+    return (
+      <Grid container className={LoadingStyle.grid}>
+        <div className={LoadingStyle.progress}>
+          <CircularProgress></CircularProgress>
+        </div>
+      </Grid>
+    );
+  }
+  if (!currentUser) return <Redirect to="/login" />;
 
   return (
     <>

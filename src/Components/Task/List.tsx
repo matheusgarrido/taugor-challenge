@@ -16,6 +16,9 @@ import Style from './Tasks.module.scss';
 
 export default function ListTasks() {
   const { currentUser } = useAuth();
+  const id = currentUser.uid;
+  const { data, handle } = useTaskList({ id });
+
   if (currentUser === undefined) {
     return (
       <Grid container className={LoadingStyle.grid}>
@@ -26,9 +29,6 @@ export default function ListTasks() {
     );
   }
   if (!currentUser) return <Redirect to="/login" />;
-
-  const id = currentUser.uid;
-  const { data, handle } = useTaskList({ id });
 
   if (!data.allTasks.length) {
     return (
