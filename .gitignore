@@ -50,5 +50,6 @@ sketch
 ### Heroku ###
 yarn.lock
 package-lock.json
+build/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,dotenv,firebase
